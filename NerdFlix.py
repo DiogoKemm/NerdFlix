@@ -4,7 +4,7 @@ def main():
     menuPrincipal()
 
 def menuPrincipal():
-    print('Seja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
+    print('\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
     + '[1] Cadastrar produtos   [2] Consultar produto\n'
     + '[3] Atualizar produtos   [4] Relatório de produtos\n'
     + '[5] Registrar compra     [6] Relatório de compras')
@@ -14,7 +14,17 @@ def menuPrincipal():
     if comandoMenuPrincipal == 1:
         cadastrarProdutos()
     elif comandoMenuPrincipal == 2:
-        consultarProdutos()
+        organizarDados()
+    elif comandoMenuPrincipal == 3:
+        atualizarProdutos()
+    elif comandoMenuPrincipal == 4:
+        relatorioProdutos()
+    elif comandoMenuPrincipal == 5:
+        registrarCompra()
+    elif comandoMenuPrincipal == 6:
+        relatorioCompras()
+    else: 
+        print("Digite um número válido\n")
 
 def cadastrarProdutos():
 
@@ -48,8 +58,45 @@ def cadastrarProdutos():
         while escolhaUsuario == 'N':
             cadastrarProdutos()
 
+def organizarDados():
+    i = 0
+    if len(cadastro) == 0:
+        print("Insira um produto primeiro")
+        menuPrincipal()
+    while len(cadastro) != 0:
+        codigo_produto = [cadastro[0]]
+        nome_produto = [cadastro[1]]
+        tipo_produto = [cadastro[2]]
+        preco_produto = [cadastro[3]]
+        disponivel_produto = [cadastro[4]]
+
+        #código para gerar multiplos vetores
+        produto.extend(codigo_produto, nome_produto, tipo_produto, preco_produto, disponivel_produto)
+
+        del cadastro[0:5]
+
 def consultarProdutos():
-    print(cadastro)
+    organizarDados()
+
+  
+
+def atualizarProdutos():
+    print('Em construção')
+    menuPrincipal()
+
+def relatorioProdutos():
+    print("Em construção")
+    menuPrincipal()
+
+def registrarCompra():
+    print("Em construção")
+    menuPrincipal()
+
+def relatorioCompras():
+    print("Em construção")
+    menuPrincipal()
+    
+
 
 if __name__ == '__main__':
     main()
