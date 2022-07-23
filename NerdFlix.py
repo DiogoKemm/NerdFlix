@@ -1,4 +1,7 @@
+import datetime
+
 cadastro = []
+lista5 = []
 
 def main():
     menuPrincipal()
@@ -61,8 +64,10 @@ def consultarProdutos():
             if consultarCodigo in i:
                 teste = cadastro.index(i)
                 print(cadastro[teste])
+                menuPrincipal()
     else: 
         print('Produto não cadastrado')
+        menuPrincipal()
 
 
 
@@ -94,6 +99,7 @@ def atualizarProdutos():
                 
     else:
         print("Produto não cadastrado")
+        menuPrincipal()
 
 def relatorioProdutos():
     print("\nQue produtos você deseja visualizar?"
@@ -104,6 +110,9 @@ def relatorioProdutos():
     comandoRelatorio = int(input())
 
     if comandoRelatorio == 0:
+        if len(cadastro) == 0:
+            print('Nenhum produto cadastrado')
+            menuPrincipal()
         sortfun(cadastro)
         teste5 = (f'Código: {[item[0] for item in cadastro]}\n'
         + f'Nome: {[item[1] for item in cadastro]}\n'
@@ -122,11 +131,8 @@ def relatorioProdutos():
     elif comandoRelatorio == 2:
         sortfun(cadastro)
         if any(sub[2]== 1 for sub in cadastro):
-            for i in cadastro:
-                if 1 in i:
-                    teste69 = cadastro.index(i)
-                    print(cadastro[teste69])
-    
+            print([sub[2] == 1 for sub in cadastro])
+        
     elif comandoRelatorio == 3:
         sortfun(cadastro)
         if any(sub[2]== 3 for sub in cadastro):
@@ -154,32 +160,40 @@ def relatorioProdutos():
         print('perish')
 
 def registrarCompra():
-    while True:
-        loginCliente = input('Informe o login do cliente: ')
-        codigoCliente = int(input('Informe o código do produto: '))
-        if any(sub[0] == codigoCliente for sub in cadastro):
-            print('Produto adicionado ao carrinho')    
-            maisAlgo = input("Mais alguma compra? (S/N): ")
-            if maisAlgo == 'S':
-                registrarCompra()
-            elif maisAlgo == 'N':
-                print((f'Nota fiscal\nCódigo: {[item[0] for item in cadastro]}\n'
-                + f'Nome: {[item[1] for item in cadastro]}\n'
-                + f'Tipo: {[item[2] for item in cadastro]}\n'
-                + f'Preço (R$): {[item[3] for item in cadastro]}\n'))
-                menuPrincipal()    
-        else:
-            voltar = input("Produto não encontrado. Voltar ao menu principal? (S/N): ")
-            if voltar == 'S':
-                menuPrincipal()
-            elif voltar == 'N':
-                registrarCompra()
-
+        while True:
+            loginCliente = input('Informe o login do cliente: ')
+            data = '23/07/2022'
+            codigoCliente = int(input('Informe o código do produto: '))
+            if any(sub[0] == codigoCliente for sub in cadastro):
+                print('Produto adicionado ao carrinho') 
+                valor = [sub[3] for sub in cadastro]
+                maisAlgo = input("Mais alguma compra? (S/N): ")
+                if maisAlgo == 'S':
+                    registrarCompra()
+                elif maisAlgo == 'N':
+                    print((f'Nota fiscal\nCódigo: {[item[0] for item in cadastro]}\n'
+                    + f'Nome: {[item[1] for item in cadastro]}\n'
+                    + f'Tipo: {[item[2] for item in cadastro]}\n'
+                    + f'Preço (R$): {[item[3] for item in cadastro]}\n'))
+                    lista5.append([loginCliente, data, valor])
+                    menuPrincipal()    
+            else:
+                voltar = input("Produto não encontrado. Voltar ao menu principal? (S/N): ")
+                if voltar == 'S':
+                    menuPrincipal()
+                elif voltar == 'N':
+                    registrarCompra()
+    
 def relatorioCompras():
-    print("Em construção")
+    if len(lista5) == 0:
+        print("\nNenhum produto comprado")
+        menuPrincipal()
+    print(f'Compras realizadas:\nLogin: {[item[0] for item in lista5]}\n'
+    + f'Data: {[item[1] for item in lista5]}\n'
+    + f'Valor total: R$ {[item[2] for item in lista5]}\n')
     menuPrincipal()
 
-#função que retorna a lista em ordem baseado pelo nome
+#função que retorna a lista em ordem baseado pelo nome (index(2))
 def sortfun(sub_li):
     l = len(sub_li)
     for i in range(0, l):
