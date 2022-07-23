@@ -153,6 +153,31 @@ def relatorioProdutos():
     else:
         print('perish')
 
+def registrarCompra():
+    while True:
+        loginCliente = input('Informe o login do cliente: ')
+        codigoCliente = int(input('Informe o código do produto: '))
+        if any(sub[0] == codigoCliente for sub in cadastro):
+            print('Produto adicionado ao carrinho')    
+            maisAlgo = input("Mais alguma compra? (S/N): ")
+            if maisAlgo == 'S':
+                registrarCompra()
+            elif maisAlgo == 'N':
+                print((f'Nota fiscal\nCódigo: {[item[0] for item in cadastro]}\n'
+                + f'Nome: {[item[1] for item in cadastro]}\n'
+                + f'Tipo: {[item[2] for item in cadastro]}\n'
+                + f'Preço (R$): {[item[3] for item in cadastro]}\n'))
+                menuPrincipal()    
+        else:
+            voltar = input("Produto não encontrado. Voltar ao menu principal? (S/N): ")
+            if voltar == 'S':
+                menuPrincipal()
+            elif voltar == 'N':
+                registrarCompra()
+
+def relatorioCompras():
+    print("Em construção")
+    menuPrincipal()
 
 #função que retorna a lista em ordem baseado pelo nome
 def sortfun(sub_li):
@@ -168,14 +193,6 @@ def sortfun(sub_li):
 #função que extrai valor de uma sublista (ainda não usado)
 def Extract(lst):
     return [item[0] for item in lst]
-
-def registrarCompra():
-    print("Em construção")
-    menuPrincipal()
-
-def relatorioCompras():
-    print("Em construção")
-    menuPrincipal()
     
 if __name__ == '__main__':
     main()
