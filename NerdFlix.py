@@ -14,7 +14,7 @@ def menuPrincipal():
     if comandoMenuPrincipal == 1:
         cadastrarProdutos()
     elif comandoMenuPrincipal == 2:
-        organizarDados()
+        consultarProdutos()
     elif comandoMenuPrincipal == 3:
         atualizarProdutos()
     elif comandoMenuPrincipal == 4:
@@ -28,29 +28,22 @@ def menuPrincipal():
 
 def cadastrarProdutos():
 
-    listaProduto = []
-
     codigoProduto = int(input("Insira o código do produto: "))
-    listaProduto.append(codigoProduto)
 
     nomeProduto = input('Insira o nome do produto: ')
-    listaProduto.append(nomeProduto)
 
     tipoProduto = int(input('Insira o tipo do produto (1 para série, 2 para filme, 3 para documentário): '))
-    listaProduto.append(tipoProduto)
 
     precoProduto = float(input("Insira o preço (R$) do produto: "))
-    listaProduto.append(precoProduto)
 
     disponivelProduto = bool(input("O produto está disponível? (S/N): "))
     if disponivelProduto == 'S':
         disponivelProduto = True
     elif disponivelProduto == 'N':
         disponivelProduto = False
-    listaProduto.append(disponivelProduto)
 
-    escolhaUsuario = input((f'{listaProduto[1]} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): '))
-    cadastro.extend(listaProduto)
+    escolhaUsuario = input((f'{nomeProduto} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): '))
+    cadastro.append([codigoProduto, nomeProduto, tipoProduto, precoProduto])
 
     if escolhaUsuario == 'S':
         menuPrincipal()
@@ -58,27 +51,15 @@ def cadastrarProdutos():
         while escolhaUsuario == 'N':
             cadastrarProdutos()
 
-def organizarDados():
-    i = 0
-    if len(cadastro) == 0:
-        print("Insira um produto primeiro")
-        menuPrincipal()
-    while len(cadastro) != 0:
-        codigo_produto = [cadastro[0]]
-        nome_produto = [cadastro[1]]
-        tipo_produto = [cadastro[2]]
-        preco_produto = [cadastro[3]]
-        disponivel_produto = [cadastro[4]]
-
-        #código para gerar multiplos vetores
-        produto.extend(codigo_produto, nome_produto, tipo_produto, preco_produto, disponivel_produto)
-
-        del cadastro[0:5]
-
 def consultarProdutos():
-    organizarDados()
+    consultarCodigo = int(input('Digite o código do produto que quer consultar: '))
+    res1 = any(consultarCodigo in sublist for sublist in cadastro)
+    if res1 == True:
+        for i in cadastro:
+            if consultarCodigo in i:
+                teste = cadastro.index(i)
+                print(cadastro[teste])
 
-  
 
 def atualizarProdutos():
     print('Em construção')
