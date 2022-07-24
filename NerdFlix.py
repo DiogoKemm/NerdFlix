@@ -33,6 +33,9 @@ def menuPrincipal():
 def cadastrarProdutos():
 
     codigoProduto = int(input("Insira o código do produto: "))
+    if codigoProduto == any([item[0] for item in cadastro]):
+        print("Este código já pertence a outro produto!")
+        cadastrarProdutos()
 
     nomeProduto = input('Insira o nome do produto: ')
 
