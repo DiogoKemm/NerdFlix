@@ -1,6 +1,8 @@
 import datetime
+from tabulate import tabulate
 
 cadastro = []
+lista1 = ['Código', 'Filme', 'Teste', 'Teste1', 'Disponibilidade']
 lista5 = []
 
 def main():
@@ -10,7 +12,8 @@ def menuPrincipal():
     print('\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
     + '[1] Cadastrar produtos   [2] Consultar produto\n'
     + '[3] Atualizar produtos   [4] Relatório de produtos\n'
-    + '[5] Registrar compra     [6] Relatório de compras')
+    + '[5] Registrar compra     [6] Relatório de compras\n')
+    print(tabulate(cadastro, headers=lista1))
 
     comandoMenuPrincipal = int(input())
 
