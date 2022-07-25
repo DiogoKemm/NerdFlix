@@ -40,7 +40,7 @@ def cadastrarProdutos():
 
     while True:
         codigoProduto = int(input("Insira o código do produto: "))
-        if codigoProduto == any([item[0] for item in cadastro]):
+        if any(item[0]==codigoProduto for item in cadastro):
             print("Este código já pertence a outro produto!")
             break
 
