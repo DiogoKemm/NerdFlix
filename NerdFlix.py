@@ -1,9 +1,10 @@
 import datetime
 from tabulate import tabulate
 
-cadastro = [[495, "Breaking Bad", 2, 50, True]]
 headers = ['Código', 'Produto', 'Tipo', 'Preço (R$)', 'Disponibilidade']
 headerNotaFiscal = ['Login', 'Data', 'Valor total (R$)']
+headerCompra = ['Código', 'Produto', 'Tipo', 'Preço (R$)']
+cadastro = [[495, "Breaking Bad", 2, 50, True]]
 dadosCliente = []
 
 
@@ -54,25 +55,25 @@ def cadastrarProdutos():
             precoProduto = float(input("Insira um número: "))
 
 
-        disponivelProduto = (input("O produto está disponível? (S/N): "))
-        if disponivelProduto == "s" or "S":
+        disponivelProduto = (input("O produto está disponível? (S/N): ")).lower()
+        if disponivelProduto == "s":
             disponivelProduto = True
-        if disponivelProduto == "n" or "N":
+        elif disponivelProduto == "n":
             disponivelProduto = False
         
         cadastro.append([codigoProduto, nomeProduto, tipoProduto, precoProduto, disponivelProduto])
 
-        escolhaUsuario = input((f'{nomeProduto} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): '))
+        escolhaUsuario = input((f'{nomeProduto} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): ')).lower()
 
-        while escolhaUsuario != "s" or "S" and "n" or "N":
-            if escolhaUsuario == 's' and "S":
+        while escolhaUsuario != "s" or "n":
+            if escolhaUsuario == "s":
                 menuPrincipal()
-            if escolhaUsuario == "n" and "N":
+            if escolhaUsuario == "n":
                 cadastrarProdutos()
             else:
                 escolhaUsuario = input("(S/N): ")
 
-        return disponivelProduto
+        return disponivelProduto, codigoProduto, nomeProduto, tipoProduto
     
 def consultarProdutos():
     consultarCodigo = int(input('Digite o código do produto que quer consultar: '))
@@ -102,17 +103,21 @@ def atualizarProdutos():
 
                 atualizarPrecoProduto = float(input("Insira o preço (R$) do produto: "))
 
-                atualizarDisponibilidade = bool(input("O produto está disponível? (S/N): "))
-                if atualizarDisponibilidade == 'S':
-                    disponivelProduto = True
-                elif atualizarDisponibilidade == 'N':
-                    disponivelProduto = False
+                atualizarDisponibilidade = input("O produto está disponível? (S/N): ").lower()
+
+                if atualizarDisponibilidade == 's':
+                    atualizarDisponibilidade = True
+
+                elif atualizarDisponibilidade == 'n':
+                    atualizarDisponibilidade = False
 
                 #código-espaguete
                 cadastro[teste][1] = atualizarNomeProduto
                 cadastro[teste][2] = atualizarTipoProduto
                 cadastro[teste][3] = atualizarPrecoProduto
                 cadastro[teste][4] = atualizarDisponibilidade
+
+                menuPrincipal()
                 
     else:
         print("Produto não cadastrado")
@@ -125,8 +130,11 @@ def relatorioProdutos():
         + "\n[2] Séries                     [3] Documentários"
         + "\n[4] Disponíveis para venda     [5] Indisponíveis"
         + "\nPressione qualquer outra tecla para sair")
-        
-        comandoRelatorio = int(input())
+
+        try:
+            comandoRelatorio = int(input())
+        except ValueError:
+            menuPrincipal()
 
         if comandoRelatorio == 0:
             if len(cadastro) == 0:
@@ -150,14 +158,15 @@ def relatorioProdutos():
                     if 1 in i:
                         teste69 = cadastro.index(i)
                         print(tabulate(cadastro, headers=headers))
-            
+                
         elif comandoRelatorio == 3:
             sortfun(cadastro)
             if any(sub[2]== 3 for sub in cadastro):
                 for i in cadastro:
                     if 3 in i:
                         teste69 = cadastro.index(i)
-                        print(cadastro[teste69])
+                        print(tabulate(cadastro, headers=headers))
+
 
         elif comandoRelatorio == 4:
             sortfun(cadastro)
@@ -165,50 +174,44 @@ def relatorioProdutos():
                 for i in cadastro:
                     if True in i:
                         teste69 = cadastro.index(i)
-                        print(cadastro[teste69])
-        
+                        print(tabulate(cadastro, headers=headers))
+            
         elif comandoRelatorio == 5:
             sortfun(cadastro)
             if any(sub[4] == False for sub in cadastro):
                 for i in cadastro:
                     if False in i:
                         teste69 = cadastro.index(i)
-                        print(cadastro[teste69])
-
-        else:
-            menuPrincipal()
+                        print(tabulate(cadastro, headers=headers))
 
     
 
 def registrarCompra():
-            loginCliente = input('Informe o login do cliente: ')
-            data = datetime.datetime.now()
-            codigoCliente = int(input('Informe o código do produto: '))
-            if any(sub[0] == codigoCliente for sub in cadastro) and any(sub[4] == True for sub in cadastro):
-                print('Produto adicionado ao carrinho') 
-                valor = [sub[3] for sub in cadastro]
-                maisAlgo = input("Mais alguma compra? (S/N): ").lower()
-                if maisAlgo == "s":
+        loginCliente = input('Informe o login do cliente: ')
+        data = datetime.datetime.now()
+        codigoCliente = int(input('Informe o código do produto: '))
+        if any(sub[0] == codigoCliente for sub in cadastro) and any(sub[4] == True for sub in cadastro):
+            print('Produto adicionado ao carrinho') 
+            valor = [sub[3] for sub in cadastro]
+            maisAlgo = input("Mais alguma compra? (S/N): ").lower()
+            if maisAlgo == "s":
                     registrarCompra()
-                elif maisAlgo == "n":
-                    print((f'Nota fiscal\nCódigo: {[item[0] for item in cadastro]}\n'
-                    + f'Nome: {[item[1] for item in cadastro]}\n'
-                    + f'Tipo: {[item[2] for item in cadastro]}\n'
-                    + f'Preço (R$): {[item[3] for item in cadastro]}\n'))
-                    dadosCliente.append([loginCliente, data, valor])
-                    menuPrincipal()    
-            else:
-                voltar = input("Produto não encontrado ou indisponível. Voltar ao menu principal? (S/N): ").lower()
-                if voltar == "s":
-                    menuPrincipal()
-                elif voltar == "n":
-                    registrarCompra()
+            elif maisAlgo == "n":
+                notaFiscal()
+                dadosCliente.append([loginCliente, data, *valor])
+                menuPrincipal()    
+        else:
+            voltar = input("Produto não encontrado ou indisponível. Voltar ao menu principal? (S/N): ").lower()
+            if voltar == "s":
+                menuPrincipal()
+            elif voltar == "n":
+                registrarCompra()
     
 def relatorioCompras():
     if len(dadosCliente) == 0:
         print("\nNenhum produto comprado")
         menuPrincipal()
-    print(tabulate(dadosCliente))
+    print(tabulate(dadosCliente, headers=headerNotaFiscal))
     menuPrincipal()
 
 #função que retorna a lista em ordem baseado pelo nome (index(2))
@@ -223,11 +226,17 @@ def sortfun(sub_li):
     return sub_li
 
 def irOuFicar():
-    comandoIrOuFicar = input('Deseja consultar mais algum produto? (S/N): ')
-    if comandoIrOuFicar == "n" and "N":
+    comandoIrOuFicar = input('Deseja consultar mais algum produto? (S/N): ').lower()
+    if comandoIrOuFicar == "n":
         menuPrincipal()
-    if comandoIrOuFicar == "S" and "s":
+    if comandoIrOuFicar == "s":
         relatorioProdutos()
+
+def notaFiscal():
+    for i in cadastro:
+        teste = any([sub[0] for sub in cadastro])
+        teste2 = cadastro.index(i)
+        print(teste2)
     
 if __name__ == '__main__':
     main()
