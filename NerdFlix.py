@@ -4,7 +4,7 @@ from tabulate import tabulate
 headers = ['Código', 'Produto', 'Tipo', 'Preço (R$)', 'Disponibilidade']
 headerNotaFiscal = ['Login', 'Data', 'Valor']
 cadastro = [[495, "Breaking Bad", 2, 50, True], [496, "Better Call Saul", 3, 50, False],
-            [497, "Stranger Things", 3, 24, True]]
+            [497, "Stranger Things", 3, 24, True], [1, "Nope", 1, 50, False]]
 dadosCliente = []
 
 
@@ -90,7 +90,7 @@ def consultarProdutos():
     res1 = any(consultarCodigo in sublist for sublist in cadastro)
     if res1 == True:
         for i in cadastro:
-            if consultarCodigo in i:
+            if consultarCodigo == i[0]:
                 teste = cadastro.index(i)
                 print(tabulate([cadastro[teste]], headers=headers))
                 menuPrincipal()
