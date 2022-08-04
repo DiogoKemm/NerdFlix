@@ -105,7 +105,7 @@ def atualizarProdutos():
         teste2 = any(atualizarProdutoCode in sublist for sublist in cadastro)
         if teste2 == True:
             for i in cadastro:
-                if atualizarProdutoCode in i:
+                if atualizarProdutoCode == i[0]:
                     teste = cadastro.index(i)
 
                     atualizarNomeProduto = input('Insira o nome do produto: ')
