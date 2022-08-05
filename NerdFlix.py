@@ -3,8 +3,9 @@ from tabulate import tabulate
 
 headers = ['Código', 'Produto', 'Tipo', 'Preço (R$)', 'Disponibilidade']
 headerNotaFiscal = ['Login', 'Data', 'Valor']
-cadastro = [[495, "Breaking Bad", 2, 50, True], [496, "Better Call Saul", 3, 50, False],
-            [497, "Stranger Things", 3, 24, True], [1, "Nope", 1, 50, False]]
+cadastro = [[495, "Breaking Bad", 1, 50, True], [496, "Better Call Saul", 1, 50, False],
+            [497, "Stranger Things", 1, 24, True], [1, "O Ato de Matar", 3, 50, False],
+            [25, "Kill Bill", 2, 65, True], [26, "Brilho Eterno de uma Mente Sem Lembranças", 2, 40, True]]
 dadosCliente = []
 
 
@@ -65,9 +66,9 @@ def cadastrarProdutos():
     disponivelProduto = input('O produto está disponível? (S/N): ').lower()
 
     if disponivelProduto == "s":
-        disponivelProduto == True
+        disponivelProduto = True
     elif disponivelProduto == "n":
-        disponivelProduto == False
+        disponivelProduto = False
     else:
         disponivelProduto = input("(S/N): ").lower()
 
