@@ -222,7 +222,7 @@ def registrarCompra():
     valorTotal = []
     produtoComprado = []
     loginCliente = input('Informe o login do cliente: ')
-    data = datetime.datetime.now()
+    data = f"{datetime.datetime.now():%d/%m/%Y %X}"
     while True:
         try:
             codigoCliente = int(input('Informe um código válido (produto deve estar disponível!): '))
@@ -230,12 +230,12 @@ def registrarCompra():
             codigoCliente = int(input('Insira números: '))
         for i in cadastro:
             if codigoCliente == i[0]:
-                teste = cadastro.index(i)
-                if cadastro[teste][4] == "Sim":
-                    valor = cadastro[teste][3]
+                codeIndex = cadastro.index(i)
+                if cadastro[codeIndex][4] == "Sim":
+                    valor = cadastro[codeIndex][3]
                     valorTotal.append(valor)
-                    produtoComprado.append(cadastro[teste])
-                    maisAlgo = input(f"{cadastro[teste][1]} comprado com sucesso! Mais algo? (S/N): ").lower()
+                    produtoComprado.append(cadastro[codeIndex])
+                    maisAlgo = input(f"{cadastro[codeIndex][1]} comprado com sucesso! Mais algo? (S/N): ").lower()
                     while True:
                             if maisAlgo == 's':
                                 try:
@@ -246,7 +246,7 @@ def registrarCompra():
                                 print(f'\n{tabulate(produtoComprado, headers=headerCadastro)}')
                                 valorTotal = sum(valorTotal)
                                 print(f'Valor total: {valorTotal}')
-                                dadosCliente.append([loginCliente, data.strftime("%x %X"), valorTotal])
+                                dadosCliente.append([loginCliente, data, valorTotal])
                                 menuPrincipal()
                             else: 
                                 maisAlgo = input("(S/N): ")
