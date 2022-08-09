@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 #Cabeçalhos para as tabelas
 headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
-headerNotaFiscal = ['Login', 'Data e hora', 'Valor']
+headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)']
 
 #Listas para armazenamento de informações
 cadastro     = [[495, "Breaking Bad", "Série", 50, "Sim"], [496, "Better Call Saul", "Série", 50, "Não"],
@@ -13,15 +13,14 @@ cadastro     = [[495, "Breaking Bad", "Série", 50, "Sim"], [496, "Better Call S
                 [25, "Kill Bill", "Filme", 65, "Sim"], [26, "Duna", "Filme", 40, "Sim"]]
 dadosCliente = []
 
-def main():
-    menuPrincipal()
-
+#Função que define o menuPrincipal
 def menuPrincipal():
     comandoMenuPrincipal = int(input('\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
           + '[1] Cadastrar produtos   [2] Consultar produto\n'
           + '[3] Atualizar produtos   [4] Relatório de produtos\n'
           + '[5] Registrar compra     [6] Relatório de compras\n'))
 
+    #Opções de seleção para outras funções
     if comandoMenuPrincipal == 1:
         cadastrarProdutos()
     elif comandoMenuPrincipal == 2:
@@ -38,6 +37,7 @@ def menuPrincipal():
         print("Digite um número válido\n")
         menuPrincipal()
 
+#Função de cadastro de produtos
 def cadastrarProdutos():
     try:
         codigoProduto = int(input("Insira o código do produto: "))
@@ -90,6 +90,7 @@ def cadastrarProdutos():
         else:
             escolhaUsuario = input("(S/N): ").lower()
 
+#Consultoria dos produto baseado em seu código
 def consultarProdutos():
     consultarCodigo = int(
         input('Digite o código do produto que quer consultar: '))
@@ -103,7 +104,7 @@ def consultarProdutos():
     else:
         print('Produto não cadastrado')
 
-
+#Atualiza o produto baseado em seu código
 def atualizarProdutos():
     while True:
         atualizarProdutoCode = int(
@@ -158,7 +159,6 @@ def atualizarProdutos():
         else:
             print("Produto não cadastrado")
             menuPrincipal()
-
 
 def relatorioProdutos():
     while True:
@@ -222,7 +222,7 @@ def relatorioProdutos():
         else:
             menuPrincipal()
 
-
+#Função que pede o login do cliente, define a data e hora da compra, e compra o produto 
 def registrarCompra():
     valorTotal      = []
     produtoComprado = []
@@ -249,12 +249,13 @@ def registrarCompra():
                     elif maisAlgo == 'n':
                         print('\n' + tabulate(produtoComprado, headers=headerCadastro))
                         valorTotal = sum(valorTotal)
-                        print(f'\nValor total: {valorTotal}')
+                        print(f'\nValor total: R${valorTotal}')
                         dadosCliente.append([loginCliente, data, valorTotal])
                         menuPrincipal()
                     else: 
                         maisAlgo = input("(S/N): ")
-
+                        
+#Relatório de todos os produtos comprados e seus respectivos clientes
 def relatorioCompras():
     if len(dadosCliente) == 0:
         print("\nNenhum produto comprado")
@@ -262,5 +263,4 @@ def relatorioCompras():
     print('\n'+ tabulate(dadosCliente, headers=headerNotaFiscal))
     menuPrincipal()
 
-if __name__ == '__main__':
-    main()
+menuPrincipal()
