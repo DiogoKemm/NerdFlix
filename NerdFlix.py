@@ -8,7 +8,7 @@ headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
 headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)']
 
 #Listas para armazenamento de informações
-cadastro     = [[1, "Teste Maroto", "Série", 50, "Sim"]]
+cadastro     = []
 dadosCliente = []
 
 #Função que define o menuPrincipal
@@ -16,7 +16,8 @@ def menuPrincipal():
     while True:
         try:
             while True:
-                comandoMenuPrincipal = int(input('\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
+                comandoMenuPrincipal = int(input(
+                    '\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
                     + '[1] Cadastrar produtos   [2] Consultar produto\n'
                     + '[3] Atualizar produtos   [4] Relatório de produtos\n'
                     + '[5] Registrar compra     [6] Relatório de compras\n'))
