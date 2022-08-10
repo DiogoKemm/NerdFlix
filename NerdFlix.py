@@ -13,27 +13,33 @@ dadosCliente = []
 
 #Função que define o menuPrincipal
 def menuPrincipal():
-    comandoMenuPrincipal = int(input('\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
-          + '[1] Cadastrar produtos   [2] Consultar produto\n'
-          + '[3] Atualizar produtos   [4] Relatório de produtos\n'
-          + '[5] Registrar compra     [6] Relatório de compras\n'))
+    while True:
+        try:
+            while True:
+                comandoMenuPrincipal = int(input('\nSeja bem vindo ao sistema interno da NerdFlix. O que o usuário deseja fazer?\n'
+                    + '[1] Cadastrar produtos   [2] Consultar produto\n'
+                    + '[3] Atualizar produtos   [4] Relatório de produtos\n'
+                    + '[5] Registrar compra     [6] Relatório de compras\n'))
 
-    #Opções de seleção para outras funções
-    if comandoMenuPrincipal == 1:
-        cadastrarProdutos()
-    elif comandoMenuPrincipal == 2:
-        consultarProdutos()
-    elif comandoMenuPrincipal == 3:
-        atualizarProdutos()
-    elif comandoMenuPrincipal == 4:
-        relatorioProdutos()
-    elif comandoMenuPrincipal == 5:
-        registrarCompra()
-    elif comandoMenuPrincipal == 6:
-        relatorioCompras()
-    else:
-        print("Digite um número válido\n")
-        menuPrincipal()
+                #Opções de seleção para outras funções
+                if comandoMenuPrincipal == 1:
+                    cadastrarProdutos()
+                elif comandoMenuPrincipal == 2:
+                    consultarProdutos()
+                elif comandoMenuPrincipal == 3:
+                    atualizarProdutos()
+                elif comandoMenuPrincipal == 4:
+                    relatorioProdutos()
+                elif comandoMenuPrincipal == 5:
+                    registrarCompra()
+                elif comandoMenuPrincipal == 6:
+                    relatorioCompras()
+                else:
+                    print("\nDigite um número válido!")
+        except ValueError:
+            print("\nInsira um número!")
+        else:
+            break
 
 #Função de cadastro de produtos
 def cadastrarProdutos():
