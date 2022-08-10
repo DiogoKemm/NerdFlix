@@ -38,8 +38,6 @@ def menuPrincipal():
                     print("\nDigite um número válido!")
         except ValueError:
             print("\nInsira um número!")
-        else:
-            break
 
 #Função de cadastro de produtos
 def cadastrarProdutos():
