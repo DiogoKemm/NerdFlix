@@ -8,9 +8,7 @@ headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
 headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)']
 
 #Listas para armazenamento de informações
-cadastro     = [[495, "Breaking Bad", "Série", 50, "Sim"], [496, "Better Call Saul", "Série", 50, "Não"],
-                [497, "Stranger Things", "Série", 24, "Sim"], [1, "O Ato de Matar", "Documentário", 50, "Não"],
-                [25, "Kill Bill", "Filme", 65, "Sim"], [26, "Duna", "Filme", 40, "Sim"]]
+cadastro     = [[1, "Teste Maroto", "Série", 50, "Sim"]]
 dadosCliente = []
 
 #Função que define o menuPrincipal
@@ -39,21 +37,28 @@ def menuPrincipal():
 
 #Função de cadastro de produtos
 def cadastrarProdutos():
-    try:
-        codigoProduto = int(input("Insira o código do produto: "))
-        if any(item[0] == codigoProduto for item in cadastro):
-            codigoProduto = int(input("Este código já pertence a outro produto: "))
-    except ValueError:
-        codigoProduto = int(input("Insira números: "))
-        if any(item[0] == codigoProduto for item in cadastro):
-            codigoProduto = int(input("Este código já pertence a outro produto: "))
+    while True:
+        try:
+            codigoProduto = int(input("Insira o código do produto: "))
+            while any(item[0] == codigoProduto for item in cadastro):
+                codigoProduto = int(input("Este código já pertence a outro produto: "))  
+        except ValueError:
+            print("Insira números!")
+        else:
+            break
 
     nomeProduto = input('Insira o nome do produto: ')
 
-    tipoProduto = int(input(
-        'Insira o tipo do produto (1 para série, 2 para filme, 3 para documentário): '))
-    while tipoProduto not in range(1, 4):
-        tipoProduto = (int(input("Insira um tipo válido: ")))
+    while True:
+        try:
+            tipoProduto = int(input(
+                'Insira o tipo do produto (1 para série, 2 para filme, 3 para documentário): '))
+            while tipoProduto not in range(1, 4):
+                tipoProduto = (int(input("Insira um tipo válido: ")))
+        except ValueError:
+            print("Insira um número!")
+        else:
+            break
 
     if tipoProduto == 1:
         tipoProduto = "Série"
@@ -62,103 +67,128 @@ def cadastrarProdutos():
     elif tipoProduto == 3:
         tipoProduto = "Documentário"
 
-    try:
-        precoProduto = float(input("Insira o preço (R$) do produto: "))
-    except ValueError:
-        precoProduto = float(input("Insira um número: "))
+    while True:
+        try:
+            precoProduto = float(input("Insira o preço (R$) do produto: "))
+        except ValueError:
+            print("Insira um número!")
+        else: 
+            break
 
-    disponivelProduto = input('O produto está disponível? (S/N): ').lower()
+    while True:
+        disponivelProduto = input('O produto está disponível? (S/N): ').lower()
+        if disponivelProduto == "s":
+            disponibilidade = "Sim"
+            break
 
-    if disponivelProduto == "s":
-        disponivelProduto = "Sim"
-    elif disponivelProduto == "n":
-        disponivelProduto = "Não"
-    else:
-        disponivelProduto = input("(S/N): ").lower()
+        elif disponivelProduto == "n":
+            disponibilidade = "Não"
+            break
 
     cadastro.append([codigoProduto, nomeProduto, tipoProduto,
-                    precoProduto, disponivelProduto])
+                    precoProduto, disponibilidade])
 
-    escolhaUsuario = input(
+    while True:
+        escolhaUsuario = input(
         (f'{nomeProduto} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): ')).lower()
-
-    while escolhaUsuario != "s" or "n":
         if escolhaUsuario == "s":
             menuPrincipal()
-        if escolhaUsuario == "n":
+        elif escolhaUsuario == "n":
             cadastrarProdutos()
-        else:
-            escolhaUsuario = input("(S/N): ").lower()
 
 #Consultoria dos produto baseado em seu código
 def consultarProdutos():
-    consultarCodigo = int(
-        input('Digite o código do produto que quer consultar: '))
-    checkCode = any(consultarCodigo in sublist for sublist in cadastro)
-    if checkCode == True:
-        for i in cadastro:
-            if consultarCodigo == i[0]:
-                teste = cadastro.index(i)
-                print("\n" + tabulate([cadastro[teste]], headers=headerCadastro))
-                menuPrincipal()
-    else:
-        print('Produto não cadastrado')
-
+    while True:
+        try:
+            consultarCodigo = int(
+                input('Digite o código do produto que quer consultar: '))
+            checkCode = any(consultarCodigo in sublist for sublist in cadastro)
+            if checkCode == True:
+                for i in cadastro:
+                    if consultarCodigo == i[0]:
+                        teste = cadastro.index(i)
+                        print("\n" + tabulate([cadastro[teste]], headers=headerCadastro))
+                        menuPrincipal()
+            else:
+                while True:
+                    voltar = input('Produto não cadastrado. Deseja voltar ao menu principal? (S/N): ').lower()
+                    if voltar == 's':
+                        menuPrincipal()
+                    elif voltar == 'n':
+                        consultarProdutos()
+        except ValueError:
+            print("Digite um número!")
+        else:
+            break
+                    
 #Atualiza o produto baseado em seu código
 def atualizarProdutos():
     while True:
-        atualizarProdutoCode = int(
-            input('Digite o código do produto que quer atualizar: '))
-        checkCode = any(atualizarProdutoCode in sublist for sublist in cadastro)
-        if checkCode == True:
-            for i in cadastro:
-                if atualizarProdutoCode == i[0]:
-                    codeIndex = cadastro.index(i)
+        try:
+            atualizarProdutoCode = int(
+                input('Digite o código do produto que quer atualizar: '))
+            checkCode = any(atualizarProdutoCode in sublist for sublist in cadastro)
+            if checkCode == True:
+                for i in cadastro:
+                    if atualizarProdutoCode == i[0]:
+                        codeIndex = cadastro.index(i)
 
-                    atualizarNomeProduto = input('Insira o nome do produto: ')
+                        atualizarNomeProduto = input('Insira o nome do produto: ')
 
-                    atualizarTipoProduto = int(input(
-                        'Insira o tipo do produto (1 para série, 2 para filme, 3 para documentário): '))
-                    while atualizarTipoProduto not in [1, 2, 3]:
-                        atualizarTipoProduto = (
-                            int(input("Insira um tipo válido: ")))
+                        while True:
+                            try:
+                                atualizarTipoProduto = int(input(
+                                    'Insira o tipo do produto (1 para série, 2 para filme, 3 para documentário): '))
+                                while atualizarTipoProduto not in [1, 2, 3]:
+                                    atualizarTipoProduto = (
+                                        int(input("Insira um tipo válido: ")))
+                            except ValueError:
+                                print("Insira um número!")
+                            else:
+                                break
 
-                    if atualizarTipoProduto == 1:
-                        atualizarTipoProduto = "Série"
-                    elif atualizarTipoProduto == 2:
-                        atualizarTipoProduto = "Filme"
-                    elif atualizarTipoProduto == 3:
-                        atualizarTipoProduto = "Documentário"
+                        if atualizarTipoProduto == 1:
+                            atualizarTipoProduto = "Série"
+                        elif atualizarTipoProduto == 2:
+                            atualizarTipoProduto = "Filme"
+                        elif atualizarTipoProduto == 3:
+                            atualizarTipoProduto = "Documentário"
 
-                    try:
-                        atualizarPrecoProduto = float(
-                            input("Insira o preço (R$) do produto: "))
-                    except ValueError:
-                        atualizarPrecoProduto = float(
-                            input("Insira um número: "))
+                        while True:
+                            try:
+                                atualizarPrecoProduto = float(
+                                    input("Insira o preço (R$) do produto: "))
+                            except ValueError:
+                                print("Insira um número!")
+                            else:
+                                break
+                        
+                        while True:
+                            atualizarDisponibilidade = input(
+                                "O produto está disponível? (S/N): ").lower()
 
-                    atualizarDisponibilidade = input(
-                        "O produto está disponível? (S/N): ").lower()
+                            if atualizarDisponibilidade == 's':
+                                disponibilidade = "Sim"
+                                break
 
-                    if atualizarDisponibilidade == 's':
-                        atualizarDisponibilidade = "Sim"
+                            elif atualizarDisponibilidade == 'n':
+                                disponibilidade = "Não"
+                                break
+                        
+                        print('Produto cadastrado com sucesso!')
 
-                    elif atualizarDisponibilidade == 'n':
-                        atualizarDisponibilidade = "Não"
+                        cadastro[codeIndex][1:5] = [atualizarNomeProduto, atualizarTipoProduto,
+                                                atualizarPrecoProduto, disponibilidade]
 
-                    else:
-                        atualizarDisponibilidade = input("(S/N): ")
-                    
-                    print('Produto cadastrado com sucesso!')
+                        menuPrincipal()
+            else:
+                print("\nProduto não cadastrado")
+                menuPrincipal()
 
-                    cadastro[codeIndex][1:5] = [atualizarNomeProduto, atualizarTipoProduto,
-                                            atualizarPrecoProduto, atualizarDisponibilidade]
-
-                    menuPrincipal()
-
-        else:
-            print("Produto não cadastrado")
-            menuPrincipal()
+        except ValueError:
+            print("Insira um número!")
+        else: 
+            break
 
 def relatorioProdutos():
     while True:
@@ -167,16 +197,12 @@ def relatorioProdutos():
               + "\n[2] Séries                     [3] Documentários"
               + "\n[4] Disponíveis para venda     [5] Indisponíveis"
               + "\nPressione qualquer outra tecla para sair")
-
         try:
             comandoRelatorio = int(input())
         except ValueError:
             menuPrincipal()
 
         if comandoRelatorio == 0:
-            if len(cadastro) == 0:
-                print('Nenhum produto cadastrado')
-                menuPrincipal()
             print('\n'+ tabulate(sorted(cadastro, key=itemgetter(1)), headers=headerCadastro))
 
         elif comandoRelatorio == 1:
@@ -231,30 +257,31 @@ def registrarCompra():
     while True:
         try:
             codigoCliente = int(input('Informe um código válido (produto deve estar disponível!): '))
+            if codigoCliente != any(item[0] for item in cadastro):
+                print("\nProduto não encontrado!")
+                menuPrincipal()
+            for i in cadastro:
+                if codigoCliente == i[0]:
+                    codeIndex = cadastro.index(i)
+                    if cadastro[codeIndex][4] == "Sim":
+                        valor = cadastro[codeIndex][3]
+                        valorTotal.append(valor)
+                        produtoComprado.append(cadastro[codeIndex])
+                        while True:
+                            maisAlgo = input(f"{cadastro[codeIndex][1]} comprado com sucesso! Mais algo? (S/N): ").lower()
+                            if maisAlgo == 's':
+                                break
+                            elif maisAlgo == 'n':
+                                print('\n' + tabulate(produtoComprado, headers=headerCadastro))
+                                valorTotal = sum(valorTotal)
+                                print(f'\nValor total: R$ {valorTotal}')
+                                dadosCliente.append([loginCliente, data, valorTotal])
+                                menuPrincipal()
         except ValueError:
-            codigoCliente = int(input('Insira números: '))
-        for i in cadastro:
-            if codigoCliente == i[0]:
-                codeIndex = cadastro.index(i)
-                if cadastro[codeIndex][4] == "Sim":
-                    valor = cadastro[codeIndex][3]
-                    valorTotal.append(valor)
-                    produtoComprado.append(cadastro[codeIndex])
-                    maisAlgo = input(f"{cadastro[codeIndex][1]} comprado com sucesso! Mais algo? (S/N): ").lower()
-                    if maisAlgo == 's':
-                        try:
-                            codigoCliente = int(input("Informe um código válido (produto deve estar disponível!): "))
-                        except ValueError:
-                                codigoCliente = int(input('Insira números: '))
-                    elif maisAlgo == 'n':
-                        print('\n' + tabulate(produtoComprado, headers=headerCadastro))
-                        valorTotal = sum(valorTotal)
-                        print(f'\nValor total: R${valorTotal}')
-                        dadosCliente.append([loginCliente, data, valorTotal])
-                        menuPrincipal()
-                    else: 
-                        maisAlgo = input("(S/N): ")
-                        
+            print("Insira um número!")
+        else:
+            pass
+                
 #Relatório de todos os produtos comprados e seus respectivos clientes
 def relatorioCompras():
     if len(dadosCliente) == 0:
