@@ -5,13 +5,13 @@ from tabulate import tabulate
 
 #Cabeçalhos para as tabelas
 headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
-headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)']
+headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)'] 
 
 #Listas para armazenamento de informações
-cadastro     = []
-dadosCliente = []
+cadastro     = [[34, "Teste", "Filme", 50, "Sim"]] 
+dadosCliente = [] 
 
-#Função que define o menuPrincipal
+#Função que define o menu principal
 def menuPrincipal():
     while True:
         try:
@@ -262,7 +262,7 @@ def registrarCompra():
     while True:
         try:
             codigoCliente = int(input('Informe um código válido (produto deve estar disponível!): '))
-            if codigoCliente != any(item[0] for item in cadastro):
+            if any(item[0] != codigoCliente for item in cadastro):
                 print("\nProduto não encontrado!")
                 menuPrincipal()
             for i in cadastro:
