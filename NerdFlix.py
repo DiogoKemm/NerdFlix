@@ -52,7 +52,12 @@ def cadastrarProdutos():
         else:
             break
 
-    nomeProduto = input('Insira o nome do produto: ')
+    while True:
+        nomeProduto = input('Insira o nome do produto: ')
+        if nomeProduto and nomeProduto.strip():
+            break
+        else:
+            pass
 
     while True:
         try:
@@ -138,7 +143,12 @@ def atualizarProdutos():
                     if atualizarProdutoCode == i[0]:
                         codeIndex = cadastro.index(i)
 
-                        atualizarNomeProduto = input('Insira o nome do produto: ')
+                        while True:
+                            atualizarNomeProduto = input('Insira o nome do produto: ')
+                            if atualizarNomeProduto and atualizarNomeProduto.strip():
+                                break
+                            else:
+                                pass
 
                         while True:
                             try:
@@ -180,7 +190,7 @@ def atualizarProdutos():
                                 disponibilidade = "Não"
                                 break
                         
-                        print('Produto cadastrado com sucesso!')
+                        print('Produto atualizado com sucesso!')
 
                         cadastro[codeIndex][1:5] = [atualizarNomeProduto, atualizarTipoProduto,
                                                 atualizarPrecoProduto, disponibilidade]
