@@ -10,7 +10,8 @@ headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
 headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)'] 
 
 #Listas para armazenamento de informações
-cadastro     = [[54, "Breaking Bad", "Série", 49.99, "Sim"], [65, "Thor 4", "Filme", 50, "Não"], [56, "Better Call Saul", "Filme", 50, "Sim"]] 
+cadastro     = [[54, "Breaking Bad", "Série", 49.99, "Sim"], [65, "Thor 4", "Filme", 50, "Não"], 
+                [56, "Better Call Saul", "Filme", 50, "Sim"]] 
 dadosCliente = [] 
 
 #Função que define o menu principal
@@ -292,8 +293,17 @@ def registrarCompra():
                                 dadosCliente.append([loginCliente, data, valorTotal])
                                 menuPrincipal()
                     else:
-                        print("Produto não encontrado!")
-                        break
+                        comprarOutro = input("Produto não encontrado! Comprar outro? (S/N): ").lower()
+                        if comprarOutro == 's':
+                            break
+                        elif comprarOutro == 'n':
+                            print('\n' + tabulate(produtoComprado, headers=headerCadastro))
+                            valorTotal = sum(valorTotal)
+                            print(f'\nValor total: R$ {valorTotal:.2f}')
+                            dadosCliente.append([loginCliente, data, valorTotal])
+                            menuPrincipal()
+                        else:
+                            print("Digite algo válido!")
         except ValueError:
             print("Insira um número!")
         else:
