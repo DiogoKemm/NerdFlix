@@ -1,19 +1,17 @@
-# Módulos necessários
+#Módulos necessários
 import datetime
 from operator import itemgetter
 from tabulate import tabulate
 
-# Cabeçalhos para as tabelas
-headerCadastro = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
-headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)']
+#Cabeçalhos para as tabelas
+headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
+headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)'] 
 
-# Listas para armazenamento de informações
-cadastro = []
-dadosCliente = []
+#Listas para armazenamento de informações
+cadastro     = [] 
+dadosCliente = [] 
 
-# Função que define o menu principal
-
-
+#Função que define o menu principal
 def menuPrincipal():
     while True:
         try:
@@ -24,7 +22,7 @@ def menuPrincipal():
                     + '[3] Atualizar produtos   [4] Relatório de produtos\n'
                     + '[5] Registrar compra     [6] Relatório de compras\n'))
 
-                # Opções de seleção para outras funções
+                #Opções de seleção para outras funções
                 if comandoMenuPrincipal == 1:
                     cadastrarProdutos()
                 elif comandoMenuPrincipal == 2:
@@ -42,16 +40,13 @@ def menuPrincipal():
         except ValueError:
             print("\nInsira um número!")
 
-# Função de cadastro de produtos
-
-
+#Função de cadastro de produtos
 def cadastrarProdutos():
     while True:
         try:
             codigoProduto = int(input("Insira o código do produto: "))
             while any(item[0] == codigoProduto for item in cadastro):
-                codigoProduto = int(
-                    input("Este código já pertence a outro produto: "))
+                codigoProduto = int(input("Este código já pertence a outro produto: "))  
         except ValueError:
             print("Insira números!")
         else:
@@ -82,7 +77,7 @@ def cadastrarProdutos():
             precoProduto = float(input("Insira o preço (R$) do produto: "))
         except ValueError:
             print("Insira um número!")
-        else:
+        else: 
             break
 
     while True:
@@ -100,15 +95,13 @@ def cadastrarProdutos():
 
     while True:
         escolhaUsuario = input(
-            (f'{nomeProduto} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): ')).lower()
+        (f'{nomeProduto} cadastrado com sucesso! Deseja voltar ao menu principal? (S/N): ')).lower()
         if escolhaUsuario == "s":
             menuPrincipal()
         elif escolhaUsuario == "n":
             cadastrarProdutos()
 
-# Consultoria dos produto baseado em seu código
-
-
+#Consultoria dos produto baseado em seu código
 def consultarProdutos():
     while True:
         try:
@@ -118,14 +111,12 @@ def consultarProdutos():
             if checkCode == True:
                 for i in cadastro:
                     if consultarCodigo == i[0]:
-                        teste = cadastro.index(i)
-                        print(
-                            "\n" + tabulate([cadastro[teste]], headers=headerCadastro))
+                        codeIndex = cadastro.index(i)
+                        print("\n" + tabulate([cadastro[codeIndex]], headers=headerCadastro))
                         menuPrincipal()
             else:
                 while True:
-                    voltar = input(
-                        'Produto não cadastrado. Deseja voltar ao menu principal? (S/N): ').lower()
+                    voltar = input('Produto não cadastrado. Deseja voltar ao menu principal? (S/N): ').lower()
                     if voltar == 's':
                         menuPrincipal()
                     elif voltar == 'n':
@@ -134,24 +125,20 @@ def consultarProdutos():
             print("Digite um número!")
         else:
             break
-
-# Atualiza o produto baseado em seu código
-
-
+                    
+#Atualiza o produto baseado em seu código
 def atualizarProdutos():
     while True:
         try:
             atualizarProdutoCode = int(
                 input('Digite o código do produto que quer atualizar: '))
-            checkCode = any(
-                atualizarProdutoCode in sublist for sublist in cadastro)
+            checkCode = any(atualizarProdutoCode in sublist for sublist in cadastro)
             if checkCode == True:
                 for i in cadastro:
                     if atualizarProdutoCode == i[0]:
                         codeIndex = cadastro.index(i)
 
-                        atualizarNomeProduto = input(
-                            'Insira o nome do produto: ')
+                        atualizarNomeProduto = input('Insira o nome do produto: ')
 
                         while True:
                             try:
@@ -180,7 +167,7 @@ def atualizarProdutos():
                                 print("Insira um número!")
                             else:
                                 break
-
+                        
                         while True:
                             atualizarDisponibilidade = input(
                                 "O produto está disponível? (S/N): ").lower()
@@ -192,11 +179,11 @@ def atualizarProdutos():
                             elif atualizarDisponibilidade == 'n':
                                 disponibilidade = "Não"
                                 break
-
+                        
                         print('Produto cadastrado com sucesso!')
 
                         cadastro[codeIndex][1:5] = [atualizarNomeProduto, atualizarTipoProduto,
-                                                    atualizarPrecoProduto, disponibilidade]
+                                                atualizarPrecoProduto, disponibilidade]
 
                         menuPrincipal()
             else:
@@ -205,9 +192,8 @@ def atualizarProdutos():
 
         except ValueError:
             print("Insira um número!")
-        else:
+        else: 
             break
-
 
 def relatorioProdutos():
     while True:
@@ -222,8 +208,7 @@ def relatorioProdutos():
             menuPrincipal()
 
         if comandoRelatorio == 0:
-            print('\n' + tabulate(sorted(cadastro, key=itemgetter(1)),
-                  headers=headerCadastro))
+            print('\n'+ tabulate(sorted(cadastro, key=itemgetter(1)), headers=headerCadastro))
 
         elif comandoRelatorio == 1:
             movieList = []
@@ -231,8 +216,7 @@ def relatorioProdutos():
                 if "Filme" == i[2]:
                     movieIndex = cadastro.index(i)
                     movieList.append(cadastro[movieIndex])
-            print('\n' + tabulate(sorted(movieList, key=itemgetter(1)),
-                  headers=headerCadastro))
+            print('\n'+ tabulate(sorted(movieList, key=itemgetter(1)), headers=headerCadastro))
 
         elif comandoRelatorio == 2:
             tvList = []
@@ -240,8 +224,7 @@ def relatorioProdutos():
                 if "Série" == i[2]:
                     tvIndex = cadastro.index(i)
                     tvList.append(cadastro[tvIndex])
-            print('\n' + tabulate(sorted(tvList, key=itemgetter(1)),
-                  headers=headerCadastro))
+            print('\n'+ tabulate(sorted(tvList, key=itemgetter(1)), headers=headerCadastro))
 
         elif comandoRelatorio == 3:
             docList = []
@@ -249,8 +232,7 @@ def relatorioProdutos():
                 if "Documentário" == i[2]:
                     docIndex = cadastro.index(i)
                     docList.append(cadastro[docIndex])
-            print('\n' + tabulate(sorted(docList, key=itemgetter(1)),
-                  headers=headerCadastro))
+            print('\n'+ tabulate(sorted(docList, key=itemgetter(1)), headers=headerCadastro))
 
         elif comandoRelatorio == 4:
             availableList = []
@@ -258,8 +240,7 @@ def relatorioProdutos():
                 if "Sim" == i[4]:
                     availableIndex = cadastro.index(i)
                     availableList.append(cadastro[availableIndex])
-            print('\n' + tabulate(sorted(availableList,
-                  key=itemgetter(1)), headers=headerCadastro))
+            print('\n'+ tabulate(sorted(availableList, key=itemgetter(1)), headers=headerCadastro))
 
         elif comandoRelatorio == 5:
             unavailableList = []
@@ -267,24 +248,20 @@ def relatorioProdutos():
                 if "Não" == i[4]:
                     unavailableIndex = cadastro.index(i)
                     unavailableList.append(cadastro[unavailableIndex])
-            print('\n' + tabulate(sorted(unavailableList,
-                  key=itemgetter(1)), headers=headerCadastro))
+            print('\n'+ tabulate(sorted(unavailableList, key=itemgetter(1)), headers=headerCadastro))
 
         else:
             menuPrincipal()
 
-# Função que pede o login do cliente, define a data e hora da compra, e compra o produto
-
-
+#Função que pede o login do cliente, define a data e hora da compra, e compra o produto 
 def registrarCompra():
-    valorTotal = []
+    valorTotal      = []
     produtoComprado = []
-    loginCliente = input('Informe o login do cliente: ')
-    data = f"{datetime.datetime.now():%d/%m/%Y %X}"
+    loginCliente    = input('Informe o login do cliente: ')
+    data            = f"{datetime.datetime.now():%d/%m/%Y %X}"
     while True:
         try:
-            codigoCliente = int(
-                input('Informe um código válido (produto deve estar disponível!): '))
+            codigoCliente = int(input('Informe um código válido (produto deve estar disponível!): '))
             if any(item[0] != codigoCliente for item in cadastro):
                 print("\nProduto não encontrado!")
                 menuPrincipal()
@@ -296,32 +273,26 @@ def registrarCompra():
                         valorTotal.append(valor)
                         produtoComprado.append(cadastro[codeIndex])
                         while True:
-                            maisAlgo = input(
-                                f"{cadastro[codeIndex][1]} comprado com sucesso! Mais algo? (S/N): ").lower()
+                            maisAlgo = input(f"{cadastro[codeIndex][1]} comprado com sucesso! Mais algo? (S/N): ").lower()
                             if maisAlgo == 's':
                                 break
                             elif maisAlgo == 'n':
-                                print('\n' + tabulate(produtoComprado,
-                                      headers=headerCadastro))
+                                print('\n' + tabulate(produtoComprado, headers=headerCadastro))
                                 valorTotal = sum(valorTotal)
                                 print(f'\nValor total: R$ {valorTotal}')
-                                dadosCliente.append(
-                                    [loginCliente, data, valorTotal])
+                                dadosCliente.append([loginCliente, data, valorTotal])
                                 menuPrincipal()
         except ValueError:
             print("Insira um número!")
         else:
             pass
-
-# Relatório de todos os produtos comprados e seus respectivos clientes
-
-
+                
+#Relatório de todos os produtos comprados e seus respectivos clientes
 def relatorioCompras():
     if len(dadosCliente) == 0:
         print("\nNenhum produto comprado")
         menuPrincipal()
-    print('\n' + tabulate(dadosCliente, headers=headerNotaFiscal))
+    print('\n'+ tabulate(dadosCliente, headers=headerNotaFiscal))
     menuPrincipal()
-
 
 menuPrincipal()
