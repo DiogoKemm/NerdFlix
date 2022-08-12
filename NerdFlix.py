@@ -1,4 +1,3 @@
-
 #coding=UTF-8     #Para o usuário poder usar acentuação
 
 #Módulos necessários
@@ -11,7 +10,7 @@ headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
 headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)'] 
 
 #Listas para armazenamento de informações
-cadastro     = [] 
+cadastro     = [[54, "Breaking Bad", "Série", 49.99, "Sim"], [65, "Thor 4", "Filme", 50, "Não"], [56, "Better Call Saul", "Filme", 50, "Sim"]] 
 dadosCliente = [] 
 
 #Função que define o menu principal
@@ -275,9 +274,6 @@ def registrarCompra():
     while True:
         try:
             codigoCliente = int(input('Informe um código válido (produto deve estar disponível!): '))
-            if any(item[0] != codigoCliente for item in cadastro):
-                print("\nProduto não encontrado!")
-                menuPrincipal()
             for i in cadastro:
                 if codigoCliente == i[0]:
                     codeIndex = cadastro.index(i)
@@ -295,6 +291,9 @@ def registrarCompra():
                                 print(f'\nValor total: R$ {valorTotal}')
                                 dadosCliente.append([loginCliente, data, valorTotal])
                                 menuPrincipal()
+                    else:
+                        print("Produto não encontrado!")
+                        break
         except ValueError:
             print("Insira um número!")
         else:
