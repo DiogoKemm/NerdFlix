@@ -288,7 +288,7 @@ def registrarCompra():
                             elif maisAlgo == 'n':
                                 print('\n' + tabulate(produtoComprado, headers=headerCadastro))
                                 valorTotal = sum(valorTotal)
-                                print(f'\nValor total: R$ {valorTotal}')
+                                print(f'\nValor total: R$ {valorTotal:.2f}')
                                 dadosCliente.append([loginCliente, data, valorTotal])
                                 menuPrincipal()
                     else:
