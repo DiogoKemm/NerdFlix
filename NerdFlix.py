@@ -1,3 +1,6 @@
+
+#coding=UTF-8     #Para o usuário poder usar acentuação
+
 #Módulos necessários
 import datetime
 from operator import itemgetter
