@@ -10,8 +10,7 @@ headerCadastro   = ['Código', 'Nome', 'Tipo', 'Preço (R$)', 'Disponivel?']
 headerNotaFiscal = ['Login', 'Data e hora', 'Valor (R$)'] 
 
 #Listas para armazenamento de informações
-cadastro     = [[54, "Breaking Bad", "Série", 49.99, "Sim"], [65, "Thor 4", "Filme", 50, "Não"], 
-                [56, "Better Call Saul", "Filme", 50, "Sim"]] 
+cadastro     = [] 
 dadosCliente = [] 
 
 #Função que define o menu principal
@@ -268,6 +267,9 @@ def relatorioProdutos():
 
 #Função que pede o login do cliente, define a data e hora da compra, e compra o produto 
 def registrarCompra():
+    if len(cadastro) == 0:
+        print("\nCadastre algo primeiro!")
+        menuPrincipal()
     valorTotal      = []
     produtoComprado = []
     loginCliente    = input('Informe o login do cliente: ')
